@@ -84,12 +84,13 @@ public class UserServiceImpl implements UserService {
         return 0;
     }
 
-//    /**
-//     * @param identityParameters 封装成一个对象
-//     * @throws UserException
-//     */
-//    @Override
-//    public void login(IdentityParameters identityParameters) throws UserException {
-//
-//    }
+    /**
+     * @param identityParameters 封装成一个对象
+     * @throws UserException
+     */
+    @Override
+    public void login(IdentityParameters identityParameters) throws UserException {
+
+    }
+
 }

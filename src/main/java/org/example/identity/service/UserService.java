@@ -21,11 +21,6 @@ public interface UserService {
 //     */
 //    int signup(String username, String password);
 
-
-
-
-
-
     /**
      * honor option1
      * return code desc:
@@ -39,14 +34,6 @@ public interface UserService {
     int signup(IdentityParameters identityParameters);
 
 //    /**
-//     * honor option2
-//     * it's better frontend ensure that the parameters are not empty
-//     *
-//     * @param identityParameters 封装成一个对象
-//     */
-//    void login(IdentityParameters identityParameters) throws UserException;
-//
-//    /**
 //          * honor option2
 //          * it's better frontend ensure that the parameters are not empty
 //          *
@@ -54,6 +41,14 @@ public interface UserService {
 //          * @param password
 //          */
 //    void login(String username, String password) throws UserException;
+
+     /**
+     * honor option2
+     * it's better frontend ensure that the parameters are not empty
+     *
+     * @param identityParameters 封装成一个对象
+     */
+    void login(IdentityParameters identityParameters) throws UserException;
 
     /**
      * option 3: result encapsulate the result of operation

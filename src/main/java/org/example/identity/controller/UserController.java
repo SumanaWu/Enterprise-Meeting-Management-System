@@ -5,10 +5,7 @@ import jakarta.annotation.Resource;
 import org.example.identity.service.IdentityParameters;
 import org.example.identity.service.UserException;
 import org.example.identity.service.UserService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class UserController {
@@ -17,7 +14,7 @@ public class UserController {
     private UserService userService;
 
     // controller层的主要目的是暴露出URL
-    @PostMapping(path = "/user/signup")
+    @RequestMapping(path = "/user/signup")
     public String signup(@RequestParam("username") String username,
                          @RequestParam("password") String password,
                          @RequestParam("phone") String phone,
@@ -56,20 +53,20 @@ public class UserController {
         return result;
     }
 
-//    @PostMapping(path = "/user/login")
-//    public Resp login(@RequestParam("username") String username,
-//                      @RequestParam("password") String password) {
-//
-//        String result = null;
-//
-//        try {
-//            userService.login(new IdentityParameters());
-//            result = "success";
-//        } catch (UserException userException) {
-//            userException.printStackTrace();
-//            result = "failure";
-//        }
-//
-//        return Resp.newInstance(0, result);
-//    }
+    @RequestMapping(path = "/user/login")
+    public Resp login(@RequestParam("username") String username,
+                      @RequestParam("password") String password) {
+
+        String result = null;
+
+        try {
+            userService.login(new IdentityParameters());
+            result = "success";
+        } catch (UserException userException) {
+            userException.printStackTrace();
+            result = "failure";
+        }
+
+        return Resp.newInstance(0, result);
+    }
 }
