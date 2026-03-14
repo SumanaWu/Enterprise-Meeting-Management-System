@@ -54,19 +54,29 @@ public class UserController {
     }
 
     @RequestMapping(path = "/user/login")
-    public Resp login(@RequestParam("username") String username,
+    public Resp login(@RequestParam("phone") String phone,
+                      @RequestParam("email") String email,
                       @RequestParam("password") String password) {
 
+        IdentityParameters identityParameters = new IdentityParameters();
+        identityParameters.setPasswd(password);
+        identityParameters.setPhone(phone);
+        identityParameters.setEmail(email);
         String result = null;
 
         try {
-            userService.login(new IdentityParameters());
+            userService.login(identityParameters);
             result = "success";
+        } catch (UserException.InvalidParameterException paramException) {
+            result = "paraError";
+        } catch (UserException.UserNotFoundException userNotFoundException) {
+            result = "userNotFound";
+        } catch (UserException.InvalidPasswdException invalidPasswdException) {
+            result = "invalidPasswdException";
         } catch (UserException userException) {
             userException.printStackTrace();
             result = "failure";
         }
-
         return Resp.newInstance(0, result);
     }
 }

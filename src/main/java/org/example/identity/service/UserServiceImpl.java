@@ -24,7 +24,7 @@ public class UserServiceImpl implements UserService {
      * -2: user exists;
      * -3: password not valid;
      * ...
-     * <p>
+     *
      * 1. validate input, 1.1 if valid password, 1.2...
      * 2. check user exists
      * 3. persistence
@@ -85,12 +85,36 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
+     *  1. validate input, 1.1 if valid password, 1.2...
+     *  2. check user exists
+     *  3. persistence
+     *
      * @param identityParameters 封装成一个对象
      * @throws UserException
      */
     @Override
     public void login(IdentityParameters identityParameters) throws UserException {
+        String password = identityParameters.getPasswd();
+        String email = identityParameters.getEmail();
+        String phone = identityParameters.getPhone();
 
+        boolean invalidPassword = StringUtils.isBlank(password);
+        boolean invalidId = StringUtils.isAllBlank(email, phone);
+        if (invalidId || invalidPassword) {
+            throw new UserException.InvalidParameterException("parameters invalid");
+        }
+        User userByEmail = userRepo.findUserByEmail(email);
+        User userByPhone = userRepo.findUserByPhone(phone);
+        if (userByPhone == null && userByEmail == null) {
+            throw new UserException.UserNotFoundException("User " + email + " " + phone + " does not exist");
+        }
+
+        if (userByEmail != null && !password.equals(userByEmail.getPasswd())) {
+            throw new UserException.InvalidPasswdException("Passwords do not match");
+        }
+
+        if (userByPhone != null && !password.equals(userByPhone.getPasswd())) {
+            throw new UserException.InvalidPasswdException("Passwords do not match");
+        }
     }
-
 }
